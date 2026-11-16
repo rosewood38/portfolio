@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anand — AI Engineer, Voice & GenAI Systems</title>
+<title>Anand â€” AI Engineer, Voice & GenAI Systems</title>
 <meta name="description" content="Portfolio of Anand, an AI engineer building production multilingual voice agents, LLM serving and RAG systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,7 +80,7 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
 
   <header class="hero">
     <h1>I build voice AI that works on real phone calls.</h1>
-    <p>AI engineer with about six years of experience. I ship multilingual voice agents, LLM serving and retrieval systems into production at VMax e‑Solutions.</p>
+    <p>AI engineer with about six years of experience. I ship multilingual voice agents, LLM serving and retrieval systems into production at VMax eâ€‘Solutions.</p>
     <div class="cta">
       <a class="btn primary" href="#projects">See projects</a>
       <a class="btn" id="gh-link" href="#">GitHub profile</a>
@@ -121,7 +121,7 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
       </select>
     </div>
     <div id="grid" class="grid" aria-live="polite"></div>
-    <p id="status" class="note">Loading projects from GitHub…</p>
+    <p id="status" class="note">Loading projects from GitHubâ€¦</p>
   </section>
 
   <section id="contact" class="contact">
@@ -133,7 +133,7 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
     </div>
   </section>
 
-  <footer>© <span id="yr"></span> Anand. Built with plain HTML and the GitHub API.</footer>
+  <footer>Â© <span id="yr"></span> Anand. Built with plain HTML and the GitHub API.</footer>
 </div>
 
 <script>
@@ -193,7 +193,7 @@ function render(){
       <div class="topics">${(r.topics||[]).slice(0,4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
       <div class="meta">
         ${r.language ? `<span><i class="dot"></i>${esc(r.language)}</span>` : ""}
-        <span>★ ${r.stargazers_count}</span>
+        <span>â˜… ${r.stargazers_count}</span>
         <span>Updated ${new Date(r.pushed_at).toLocaleDateString("en-GB",{month:"short",year:"numeric"})}</span>
         ${r.homepage ? `<a href="${esc(r.homepage)}" target="_blank" rel="noopener">Live demo</a>` : ""}
       </div>
@@ -202,7 +202,7 @@ function render(){
 }
 
 async function load(){
-  if (CONFIG.username === "YOUR_GITHUB_USERNAME"){
+  if (CONFIG.username === "rosewood38"){
     $("status").textContent = "Set your GitHub username in CONFIG at the bottom of index.html.";
     return;
   }
@@ -215,7 +215,7 @@ async function load(){
     render();
     if (!repos.length) $("status").textContent = "No public repositories found for this user.";
   } catch (e){
-    $("status").innerHTML = esc(e.message) + ` — <a href="https://github.com/${esc(CONFIG.username)}?tab=repositories">view repositories on GitHub</a>.`;
+    $("status").innerHTML = esc(e.message) + ` â€” <a href="https://github.com/${esc(CONFIG.username)}?tab=repositories">view repositories on GitHub</a>.`;
   }
 }
 $("q").addEventListener("input", render);
