@@ -1,0 +1,24 @@
+{
+  "name": "Anand",
+  "headline": "I build voice AI that works on real phone calls.",
+  "intro": "AI engineer with about six years of experience. I ship multilingual voice agents, LLM serving and retrieval systems into production at VMax e‑Solutions.",
+  "about": "I work on the full path of a voice call: streaming transcription, language routing across Hindi, Telugu and English, LLM inference, tool calling and speech synthesis.\n\nMost of my effort goes into latency, concurrency and accuracy under real traffic, not demos.",
+  "stack": [
+    "Pipecat",
+    "vLLM",
+    "Whisper",
+    "Piper TTS",
+    "LangChain",
+    "FastAPI",
+    "RAG",
+    "Python"
+  ],
+  "contact": "Open to senior AI and GenAI engineering roles and to conversations about voice systems.",
+  "username": "",
+  "email": "",
+  "linkedin": "",
+  "pinned": [],
+  "hide": [],
+  "includeForks": false,
+  "maxRepos": 24
+}
