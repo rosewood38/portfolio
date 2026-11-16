@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Anand â€” AI Engineer, Voice & GenAI Systems</title>
+<title>Anand — AI Engineer, Voice & GenAI Systems</title>
 <meta name="description" content="Portfolio of Anand, an AI engineer building production multilingual voice agents, LLM serving and RAG systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,6 +67,28 @@ h2{font-size:clamp(28px,4vw,40px);margin-bottom:20px}
 .note{color:var(--muted);padding:18px 0}
 .contact p{max-width:56ch}
 footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+
+#editbtn{position:fixed;right:18px;bottom:18px;z-index:20;padding:10px 18px;border-radius:999px;border:0;
+  background:var(--signal);color:var(--paper);font:500 15px "IBM Plex Sans",sans-serif;cursor:pointer}
+#ed{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:30;background:var(--surface);
+  border-left:1px solid var(--line);overflow:auto;padding:20px 22px 40px;box-shadow:-8px 0 30px rgba(0,0,0,.12)}
+#ed[hidden]{display:none}
+#ed h2{font-size:24px;margin:0 0 4px}
+#ed fieldset{border:1px solid var(--line);border-radius:8px;margin:16px 0;padding:12px 14px}
+#ed legend{font-weight:500;padding:0 6px}
+#ed label{display:block;font-size:14px;color:var(--muted);margin:10px 0 3px}
+#ed input[type=text],#ed input[type=password],#ed input[type=number],#ed textarea{width:100%;font:inherit;font-size:15px;
+  padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink)}
+#ed textarea{min-height:90px;resize:vertical}
+#ed .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+#ed button{font:500 15px "IBM Plex Sans",sans-serif;padding:9px 16px;border-radius:8px;border:1.5px solid var(--ink);
+  background:transparent;color:var(--ink);cursor:pointer}
+#ed button.primary{background:var(--ink);color:var(--paper)}
+#ed .repo{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:5px 0;
+  border-bottom:1px solid var(--line);font-size:14px}
+#ed .repo label{margin:0;display:flex;gap:4px;align-items:center}
+#msg{font-size:14px;margin-top:12px;min-height:20px}
+#msg.err{color:#c0392b}
 @media (max-width:760px){.about{grid-template-columns:1fr}nav a{margin-left:14px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -74,13 +96,13 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
 <body>
 <div class="wrap">
   <nav aria-label="Main">
-    <b id="brand">Anand</b>
+    <b id="brand"></b>
     <div><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
   </nav>
 
   <header class="hero">
-    <h1>I build voice AI that works on real phone calls.</h1>
-    <p>AI engineer with about six years of experience. I ship multilingual voice agents, LLM serving and retrieval systems into production at VMax eâ€‘Solutions.</p>
+    <h1 id="h-headline"></h1>
+    <p id="h-intro"></p>
     <div class="cta">
       <a class="btn primary" href="#projects">See projects</a>
       <a class="btn" id="gh-link" href="#">GitHub profile</a>
@@ -99,14 +121,8 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
   <section id="about">
     <h2>About</h2>
     <div class="about">
-      <div>
-        <p>I work on the full path of a voice call: streaming transcription, language routing across Hindi, Telugu and English, LLM inference, tool calling and speech synthesis.</p>
-        <p>Most of my effort goes into latency, concurrency and accuracy under real traffic, not demos.</p>
-      </div>
-      <div class="stack" aria-label="Core stack">
-        <span>Pipecat</span><span>vLLM</span><span>Whisper</span><span>Piper TTS</span>
-        <span>LangChain</span><span>FastAPI</span><span>RAG</span><span>Python</span>
-      </div>
+      <div id="about-text"></div>
+      <div class="stack" id="stack" aria-label="Core stack"></div>
     </div>
   </section>
 
@@ -121,106 +137,241 @@ footer{margin-top:72px;padding:28px 0 48px;border-top:1px solid var(--line);colo
       </select>
     </div>
     <div id="grid" class="grid" aria-live="polite"></div>
-    <p id="status" class="note">Loading projects from GitHubâ€¦</p>
+    <p id="status" class="note">Loading projects from GitHub…</p>
   </section>
 
   <section id="contact" class="contact">
     <h2>Contact</h2>
-    <p>Open to senior AI and GenAI engineering roles and to conversations about voice systems.</p>
+    <p id="contact-text"></p>
     <div class="cta">
       <a class="btn primary" id="mail" href="#">Send an email</a>
       <a class="btn" id="li" href="#">LinkedIn</a>
     </div>
   </section>
 
-  <footer>Â© <span id="yr"></span> Anand. Built with plain HTML and the GitHub API.</footer>
+  <footer>© <span id="yr"></span> <span id="foot-name"></span>. Built with plain HTML and the GitHub API.</footer>
 </div>
 
-<script>
-/* ===== EDIT THESE ===== */
-const CONFIG = {
-  username: "rosewood38",
-  email: "rjanand38@gmail.com",
-  linkedin: "https://www.linkedin.com/in/anandraj07/",
-  pinned: [],                 // repo names to show first, e.g. ["voice-agent", "rag-toolkit"]
-  hide: [],                   // repo names to exclude
-  includeForks: false,
-  maxRepos: 24
-};
-/* ====================== */
 
+<button id="editbtn" hidden>Edit site</button>
+<aside id="ed" hidden aria-label="Site editor">
+  <h2>Edit site</h2>
+  <div class="note" style="padding:4px 0">Changes preview instantly. Save publishes them to GitHub.</div>
+
+  <fieldset><legend>Text</legend>
+    <label for="f-name">Name</label><input type="text" id="f-name">
+    <label for="f-headline">Headline</label><textarea id="f-headline" style="min-height:60px"></textarea>
+    <label for="f-intro">Intro</label><textarea id="f-intro"></textarea>
+    <label for="f-about">About (blank line between paragraphs)</label><textarea id="f-about" style="min-height:140px"></textarea>
+    <label for="f-stack">Skills (comma separated)</label><input type="text" id="f-stack">
+    <label for="f-contact">Contact text</label><textarea id="f-contact" style="min-height:60px"></textarea>
+  </fieldset>
+
+  <fieldset><legend>Links</legend>
+    <label for="f-user">GitHub username (blank = detect from this site)</label><input type="text" id="f-user">
+    <label for="f-email">Email</label><input type="text" id="f-email">
+    <label for="f-li">LinkedIn URL</label><input type="text" id="f-li">
+  </fieldset>
+
+  <fieldset><legend>Projects</legend>
+    <label><input type="checkbox" id="f-forks"> Include forks</label>
+    <label for="f-max">Maximum shown</label><input type="number" id="f-max" min="1" max="100">
+    <div id="repolist" style="margin-top:10px"></div>
+  </fieldset>
+
+  <fieldset><legend>Publishing</legend>
+    <label for="f-repo">Repository (owner/name)</label><input type="text" id="f-repo">
+    <label for="f-token">GitHub token (kept only in this browser)</label><input type="password" id="f-token" autocomplete="off">
+    <div class="note" style="padding:6px 0;font-size:13px">Create a fine-grained token limited to this one repository with Contents: read and write.
+      <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create token</a></div>
+  </fieldset>
+
+  <div class="row">
+    <button class="primary" id="save">Save to GitHub</button>
+    <button id="dl">Download JSON</button>
+    <button id="close">Close</button>
+    <button id="logout">Forget token</button>
+  </div>
+  <div id="msg" role="status"></div>
+</aside>
+
+<script>
+const DEFAULTS = {
+  name: "Anand",
+  headline: "I build voice AI that works on real phone calls.",
+  intro: "AI engineer with about six years of experience. I ship multilingual voice agents, LLM serving and retrieval systems into production at VMax e‑Solutions.",
+  about: "I work on the full path of a voice call: streaming transcription, language routing across Hindi, Telugu and English, LLM inference, tool calling and speech synthesis.\n\nMost of my effort goes into latency, concurrency and accuracy under real traffic, not demos.",
+  stack: ["Pipecat","vLLM","Whisper","Piper TTS","LangChain","FastAPI","RAG","Python"],
+  contact: "Open to senior AI and GenAI engineering roles and to conversations about voice systems.",
+  username: "", email: "", linkedin: "",
+  pinned: [], hide: [], includeForks: false, maxRepos: 24
+};
+let C = JSON.parse(JSON.stringify(DEFAULTS));
 const $ = id => document.getElementById(id);
+const store = { get:k => { try { return localStorage.getItem(k) || "" } catch(e){ return "" } },
+                set:(k,v) => { try { localStorage.setItem(k,v) } catch(e){} },
+                del:k => { try { localStorage.removeItem(k) } catch(e){} } };
+
+// Detect owner/repo when hosted on GitHub Pages
+const host = location.hostname, seg = location.pathname.split("/").filter(Boolean)[0];
+const detected = host.endsWith(".github.io")
+  ? { owner: host.split(".")[0], repo: seg && !seg.includes(".") ? seg : host.split(".")[0] + ".github.io" } : null;
+const ghUser = () => C.username || (detected && detected.owner) || "";
+
 $("yr").textContent = new Date().getFullYear();
-$("gh-link").href = "https://github.com/" + CONFIG.username;
-$("mail").href = "mailto:" + CONFIG.email;
-$("li").href = CONFIG.linkedin;
 
 // Pipeline waveform
 (function(){
-  const p = $("wave"), N = 200;
-  let t = 0;
+  const p = $("wave"), N = 200; let t = 0;
   function draw(){
     let d = "";
     for (let i = 0; i <= N; i++){
       const x = i / N * 1000, seg = Math.floor(x / 250);
-      const amp = [30, 18, 8, 26][Math.min(seg, 3)] * (0.5 + 0.5 * Math.sin(i * 0.31 + t));
-      const y = 48 + Math.sin(i * 0.9 + t * 2) * amp * Math.sin(i * 0.07 + 1);
+      const amp = [30,18,8,26][Math.min(seg,3)] * (0.5 + 0.5 * Math.sin(i*0.31 + t));
+      const y = 48 + Math.sin(i*0.9 + t*2) * amp * Math.sin(i*0.07 + 1);
       d += (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
     }
     p.setAttribute("d", d);
   }
   draw();
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches){
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
     (function loop(){ t += 0.03; draw(); requestAnimationFrame(loop); })();
-  }
 })();
 
+// Apply content to page
+function applyContent(){
+  document.title = C.name + " — AI Engineer";
+  $("brand").textContent = C.name; $("foot-name").textContent = C.name;
+  $("h-headline").textContent = C.headline; $("h-intro").textContent = C.intro;
+  $("contact-text").textContent = C.contact;
+  const at = $("about-text"); at.replaceChildren();
+  C.about.split(/\n\s*\n/).filter(x => x.trim()).forEach(t => { const p = document.createElement("p"); p.textContent = t.trim(); at.append(p); });
+  const st = $("stack"); st.replaceChildren();
+  C.stack.forEach(t => { const sp = document.createElement("span"); sp.textContent = t; st.append(sp); });
+  const u = ghUser();
+  $("gh-link").href = u ? "https://github.com/" + u : "#";
+  $("mail").href = C.email ? "mailto:" + C.email : "#"; $("mail").hidden = !C.email;
+  $("li").href = C.linkedin || "#"; $("li").hidden = !C.linkedin;
+}
+
+// Projects
 let repos = [];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
 function render(){
-  const q = $("q").value.trim().toLowerCase(), sort = $("sort").value;
-  let list = repos.filter(r => !q || [r.name, r.description, r.language, ...(r.topics||[])].join(" ").toLowerCase().includes(q));
-  const rank = r => { const i = CONFIG.pinned.indexOf(r.name); return i < 0 ? 999 : i; };
-  list.sort((a, b) => rank(a) - rank(b) ||
+  const q = $("q").value.trim().toLowerCase(), sort = $("sort").value, me = ghUser();
+  let list = repos.filter(r => !C.hide.includes(r.name) && (C.includeForks || !r.fork) &&
+    r.name.toLowerCase() !== (me + ".github.io").toLowerCase() &&
+    (!q || [r.name, r.description, r.language, ...(r.topics||[])].join(" ").toLowerCase().includes(q)));
+  const rank = r => { const i = C.pinned.indexOf(r.name); return i < 0 ? 999 : i; };
+  list.sort((a,b) => rank(a) - rank(b) ||
     (sort === "stars" ? b.stargazers_count - a.stargazers_count :
-     sort === "name" ? a.name.localeCompare(b.name) :
-     new Date(b.pushed_at) - new Date(a.pushed_at)));
-  $("grid").innerHTML = list.slice(0, CONFIG.maxRepos).map(r => `
+     sort === "name" ? a.name.localeCompare(b.name) : new Date(b.pushed_at) - new Date(a.pushed_at)));
+  $("grid").innerHTML = list.slice(0, C.maxRepos).map(r => `
     <article class="card">
       <h3><a href="${esc(r.html_url)}" target="_blank" rel="noopener">${esc(r.name)}</a></h3>
       <p>${esc(r.description || "No description yet.")}</p>
       <div class="topics">${(r.topics||[]).slice(0,4).map(t => `<span>${esc(t)}</span>`).join("")}</div>
       <div class="meta">
         ${r.language ? `<span><i class="dot"></i>${esc(r.language)}</span>` : ""}
-        <span>â˜… ${r.stargazers_count}</span>
+        <span>★ ${r.stargazers_count}</span>
         <span>Updated ${new Date(r.pushed_at).toLocaleDateString("en-GB",{month:"short",year:"numeric"})}</span>
         ${r.homepage ? `<a href="${esc(r.homepage)}" target="_blank" rel="noopener">Live demo</a>` : ""}
       </div>
     </article>`).join("");
-  $("status").textContent = list.length ? "" : "No projects match that filter.";
+  if (repos.length) $("status").textContent = list.length ? "" : "No projects match.";
 }
-
-async function load(){
-  if (CONFIG.username === "rosewood38"){
-    $("status").textContent = "Set your GitHub username in CONFIG at the bottom of index.html.";
-    return;
-  }
+async function loadRepos(){
+  const u = ghUser();
+  if (!u){ $("status").textContent = "Open the editor (add #edit to the address) and set your GitHub username."; return; }
+  $("status").textContent = "Loading projects from GitHub…";
   try {
-    const res = await fetch(`https://api.github.com/users/${CONFIG.username}/repos?per_page=100&sort=pushed`);
+    const res = await fetch(`https://api.github.com/users/${u}/repos?per_page=100&sort=pushed`);
     if (!res.ok) throw new Error(res.status === 403 ? "GitHub rate limit reached. Try again in an hour." : "GitHub returned " + res.status);
-    const data = await res.json();
-    repos = data.filter(r => !r.archived && !CONFIG.hide.includes(r.name) && (CONFIG.includeForks || !r.fork) && r.name.toLowerCase() !== (CONFIG.username + ".github.io").toLowerCase());
-    $("status").textContent = "";
-    render();
-    if (!repos.length) $("status").textContent = "No public repositories found for this user.";
-  } catch (e){
-    $("status").innerHTML = esc(e.message) + ` â€” <a href="https://github.com/${esc(CONFIG.username)}?tab=repositories">view repositories on GitHub</a>.`;
+    repos = (await res.json()).filter(r => !r.archived);
+    $("status").textContent = repos.length ? "" : "No public repositories found.";
+    render(); buildRepoList();
+  } catch(e){
+    $("status").innerHTML = esc(e.message) + ` — <a href="https://github.com/${esc(u)}?tab=repositories">view repositories on GitHub</a>.`;
   }
 }
 $("q").addEventListener("input", render);
 $("sort").addEventListener("change", render);
-load();
+
+// ===== Editor =====
+const msg = (t, err) => { $("msg").textContent = t; $("msg").className = err ? "err" : ""; };
+function fillForm(){
+  $("f-name").value = C.name; $("f-headline").value = C.headline; $("f-intro").value = C.intro;
+  $("f-about").value = C.about; $("f-stack").value = C.stack.join(", "); $("f-contact").value = C.contact;
+  $("f-user").value = C.username; $("f-email").value = C.email; $("f-li").value = C.linkedin;
+  $("f-forks").checked = C.includeForks; $("f-max").value = C.maxRepos;
+  $("f-repo").value = store.get("pf_repo") || (detected ? detected.owner + "/" + detected.repo : "");
+  $("f-token").value = store.get("pf_token");
+}
+function readForm(){
+  C.name = $("f-name").value; C.headline = $("f-headline").value; C.intro = $("f-intro").value;
+  C.about = $("f-about").value; C.contact = $("f-contact").value;
+  C.stack = $("f-stack").value.split(",").map(x => x.trim()).filter(Boolean);
+  C.username = $("f-user").value.trim(); C.email = $("f-email").value.trim(); C.linkedin = $("f-li").value.trim();
+  C.includeForks = $("f-forks").checked; C.maxRepos = Math.max(1, +$("f-max").value || 24);
+}
+function buildRepoList(){
+  const box = $("repolist"); box.replaceChildren();
+  if (!repos.length) return;
+  const h = document.createElement("div"); h.className = "repo"; h.innerHTML = "<b>Repository</b><b>Pin</b><b>Hide</b>"; box.append(h);
+  repos.forEach(r => {
+    const row = document.createElement("div"); row.className = "repo";
+    row.innerHTML = `<span>${esc(r.name)}</span>
+      <label><input type="checkbox" data-k="pinned" ${C.pinned.includes(r.name) ? "checked" : ""}></label>
+      <label><input type="checkbox" data-k="hide" ${C.hide.includes(r.name) ? "checked" : ""}></label>`;
+    row.querySelectorAll("input").forEach(cb => cb.addEventListener("change", () => {
+      const k = cb.dataset.k, arr = C[k], i = arr.indexOf(r.name);
+      if (cb.checked && i < 0) arr.push(r.name); if (!cb.checked && i >= 0) arr.splice(i, 1);
+      render();
+    }));
+    box.append(row);
+  });
+}
+function openEditor(){ fillForm(); buildRepoList(); $("ed").hidden = false; }
+$("editbtn").onclick = openEditor;
+$("close").onclick = () => $("ed").hidden = true;
+$("ed").addEventListener("input", () => { const oldU = C.username; readForm(); applyContent(); render();
+  if (C.username !== oldU){ clearTimeout(window._t); window._t = setTimeout(loadRepos, 700); } });
+$("logout").onclick = () => { store.del("pf_token"); $("f-token").value = ""; msg("Token removed from this browser."); };
+$("dl").onclick = () => {
+  readForm(); const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(C, null, 2)], {type:"application/json"}));
+  a.download = "content.json"; a.click();
+};
+$("save").onclick = async () => {
+  readForm();
+  const token = $("f-token").value.trim(), repo = $("f-repo").value.trim();
+  if (!token || !/^[^/\s]+\/[^/\s]+$/.test(repo)){ msg("Enter the repository as owner/name and paste a token.", true); return; }
+  store.set("pf_token", token); store.set("pf_repo", repo);
+  const api = `https://api.github.com/repos/${repo}/contents/content.json`;
+  const h = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+  msg("Saving…");
+  try {
+    let sha; const g = await fetch(api, { headers: h, cache: "no-store" });
+    if (g.ok) sha = (await g.json()).sha; else if (g.status !== 404) throw new Error("Could not read repository (" + g.status + "). Check the token and repository name.");
+    const body = { message: "Update portfolio content", content: btoa(unescape(encodeURIComponent(JSON.stringify(C, null, 2) + "\n"))) };
+    if (sha) body.sha = sha;
+    const p = await fetch(api, { method: "PUT", headers: { ...h, "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!p.ok) throw new Error((await p.json().catch(() => ({}))).message || "Save failed (" + p.status + ")");
+    msg("Saved. GitHub Pages will show it to visitors in about a minute.");
+  } catch(e){ msg(e.message, true); }
+};
+if (location.hash === "#edit" || store.get("pf_token")) $("editbtn").hidden = false;
+addEventListener("hashchange", () => { if (location.hash === "#edit") { $("editbtn").hidden = false; openEditor(); } });
+
+// ===== Boot =====
+(async function(){
+  try {
+    const r = await fetch("content.json?v=" + Date.now(), { cache: "no-store" });
+    if (r.ok) C = { ...DEFAULTS, ...(await r.json()) };
+  } catch(e){}
+  applyContent(); loadRepos();
+  if (location.hash === "#edit") openEditor();
+})();
 </script>
 </body>
 </html>
